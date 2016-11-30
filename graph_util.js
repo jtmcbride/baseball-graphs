@@ -1,95 +1,103 @@
-const setUpGraph = function(data, type, y, x=null) {
+import * as d3 from 'd3';
 
-  let dataset = JSON.parse(data);
+export const setUpGraph = function(data, type, y, x=null, svgNode) {
 
-  //get maximums from dataset
-  let xMax = d3.max(dataset, function(d) {
-    return d[0];
+  d3.select('#graph').remove()
+
+  // let data = JSON.parse(data);
+  let xScale;
+  let yScale;
+
+  //get maximums from data
+  let xMax = d3.max(data, function(d) {
+    return d[x];
   });
-  let yMax = d3.max(dataset, function(d) {
-    return d[1];
+
+  let yMax = d3.max(data, function(d) {
+    return d[y];
   });
-  let xMin = d3.min(dataset, function(d) {
-    return d[0];
+
+  let xMin = d3.min(data, function(d) {
+    return d[x];
   });
+
   // find the means for trend line
-  let xMean = d3.mean(dataset, function(d) {
-    return d[0];
+  let xMean = d3.mean(data, function(d) {
+    return d[x];
   });
-  let yMean = d3.mean(dataset, function(d) {
-    return d[1];
+  let yMean = d3.mean(data, function(d) {
+    return d[y];
   });
-
   let mTop = 0;
   let mBot = 0;
-  let rTop = 0;
-  let rBot = 0;
-  for (dat in dataset) {
-    //console.log(dataset[dat]);
-    mTop += ((dataset[dat][0] - xMean) * (dataset[dat][1] - yMean));
-    let mB = dataset[dat][0] - xMean;
+  let mB;
+  // let rTop = 0;
+  // let rBot = 0;
+  for (let dat in data) {
+    mTop += ((data[dat][x] - xMean) * (data[dat][y] - yMean));
+    mB = data[dat][x] - xMean;
     mBot += Math.pow(mB, 2);
   }
 
   // find the least squares slope and intercept
-  m = mTop / mBot;
-  b = yMean - m * xMean;
+  let m = mTop / mBot;
+  let b = yMean - m * (xMean - xMin);
 
   // remove old graph and then create new
-  d3.select('svg').remove();
+  // d3.select('svg').remove();
 
-  svg = d3.select('#graph-container').append('svg')
+  let svg = d3.select(svgNode).append('svg')
         .attr('width', '90%')
         .attr('height', 400)
         .attr('id', 'graph');
 
-  wid = $('#graph').width();
+  let wid = svg.node().getBoundingClientRect().width;
 
 
 
   //create d3 scales and axes
   if (type === "player") {
-    xScale = d3.time.scale()
-        .domain( [new Date(xMin - 1,0,1) , new Date(xMax,0,1)] )
+    let timeMin = xMin-1 + ""
+    xScale = d3.scaleTime()
+        .domain( [new Date(xMin - 1 ,0,1) , new Date(xMax, 0, 1)] )
         .range([30,wid-60])
-        .nice( d3.time.year );
+        .nice( d3.timeYear );
   } else {
-    xScale = d3.scale.linear()
+    xScale = d3.scaleLinear()
       .domain([0, xMax])
       .range([30,wid-60])
   }
 
-  yScale = d3.scale.linear()
+  yScale = d3.scaleLinear()
           .domain([0, yMax])
           .range([400 - 30, 30])
           .nice();
 
-  xAxis = d3.svg.axis()
-          .scale(xScale)
-          .orient("bottom")
+  let xAxis = d3.axisBottom(xScale)
           .ticks(5);
 
-  yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left')
+  let yAxis = d3.axisLeft(yScale)
         .ticks(5);
 
-  trendLine = d3.svg.line()
+  let trendLine = d3.line()
     .x(function(d) { return d[0]})
     .y(function(d) { return d[1]})
-    .interpolate('linear');
+    // .interpolate('linear');
 
 
-  leastSquares = function() {
+  const leastSquares = function() {
+    let xStart, yStart;
     if (b < 0) {
-      let xStart = xScale(-1 * b / m);
-      let yStart = yScale(0);
+      xStart = xScale(-1 * b / m);
+      yStart = yScale(0);
     } else {
-      let xStart = xScale(0);
-      let yStart = yScale(b);
+      xStart = xScale(0);
+      yStart = yScale(b);
     }
-    xEnd = xScale(xMax);
-    yEnd = yScale(m * xMax + b);
+    let xEnd = xScale(xMax);
+    let yEnd = yScale(m * xMax + b);
+    if (type === "player") {xStart = xScale(new Date(xMin-1, 0, 1)); xEnd = xScale(new Date(xMax+1000, 0,1))}
+    
 
     return [[xStart, yStart], [xEnd, yEnd]];
   };
@@ -99,38 +107,38 @@ const setUpGraph = function(data, type, y, x=null) {
 
 
   // bind data to svg circles as datapoints
-  circles = svg.selectAll("circle")
-      .data(dataset)
+  let circles = svg.selectAll("circle")
+      .data(data)
       .enter()
       .append("circle");
 
   // apply data to position on scatterplot
   if (type === "player") {
     circles.attr("cx", function(d) {
-      return xScale(new Date(d[0],0,1));
+      return xScale(new Date(d[x],0,1));
     })
       .attr("cy", function(d) {
-        return yScale(d[1]);
+        return yScale(d[y]);
       })
       .attr("r", 3)
   } else {
     circles.attr("cx", function(d) {
-      return xScale(d[0]);
+      return xScale(d[x]);
     })
       .attr("cy", function(d) {
-        return yScale(d[1]);
+        return yScale(d[y]);
       })
       .attr("r", 3)
       .attr("id", function(d) {
-        return d[2];
+        return d['playerid'];
       })
       .attr("data-playerid", function(d){
-        return d[3]
+        return d['playerid']
       })
       .on("mouseenter", function(d) {
-        circleId = d[2];
-        circleX = d[0];
-        circleY = d[1];
+        circleId = d['playerid'];
+        circleX = d[x];
+        circleY = d[y];
         console.log(circleId);
         c = $('#' + circleId);
         c.parent().append("<text class='datatext' fill='red' font-size='20px' x='" +
@@ -140,13 +148,13 @@ const setUpGraph = function(data, type, y, x=null) {
 
       })
       .on("click", function(d) {
-        window.location.href = "players/" + d[3] + "?year=" + $('#year').val() +
+        window.location.href = "players/" + d['playerid'] + "?year=" + $('#year').val() +
           "&ystat=" + y + '&xstat=' + x
       })
       .append("title")
         // append a tooltip title to each point
         .text(function(d) {
-          return d[2] + "\nx:" + d[0] + ", y:" + d[1];
+          return d['playerid'] + "\nx:" + d[x] + ", y:" + d[y];
         });
     }
 
@@ -172,7 +180,7 @@ const setUpGraph = function(data, type, y, x=null) {
       .attr("x", wid - 60)
       .attr("id", "x-label")
       .style("text-anchor", "middle")
-      .text(statDict[x]);
+      // .text(statDict[x]);
   }
 
   svg.append('g')
@@ -184,7 +192,7 @@ const setUpGraph = function(data, type, y, x=null) {
     .attr("y", 12)
     .attr("x", -23)
     .style("text-anchor", "end")
-    .text(statDict[y]);
+    // .text(statDict[y]);
 
   svg.append("path")
     .attr('d', trendLine(leastSquares()))
@@ -193,3 +201,10 @@ const setUpGraph = function(data, type, y, x=null) {
         .attr("fill", "none")
         .attr("class", "line");
 };
+
+
+
+
+// {Object.keys(this.props.stats).map(stat => {
+//             return <p key={stat}>{this.props.stats[stat]["namelast"]}</p>
+//           })}

@@ -1,36 +1,37 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
+
+import { setUpGraph } from './graph_util';
 
 export default class Graph extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			data: {}
-		};
 	}
 
 
-	getStats() {
+	// getStats() {
 
-	}
+	// }
 
-	setUpGraph() {
+	// setUpGraph() {
 
+	// }
+
+	// componentDidMount() {
+	// 	if (this.props.stats) {
+	// 		setUpGraph(this.props.stats, "pler", "h", "so", ReactDOM.findDOMNode(this));
+	// 	}
+	// }
+
+	componentDidUpdate() {
+		setUpGraph(this.props.stats, "plar", this.props.yAxis, this.props.xAxis, ReactDOM.findDOMNode(this));
 	}
 
 	render() {
-		debugger;
-		if (this.props.stats) {
-			return (
-				<div>
-					{Object.keys(this.props.stats).map(stat => {
-						return <p key={stat}>{this.props.stats[stat]["namelast"]}</p>
-					})}
-				</div>
-			);
-		} else {
-			return <div></div>;
-		}
+
+		return <div></div>;
 		
 	}
 
