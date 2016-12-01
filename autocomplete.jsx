@@ -28,7 +28,7 @@ export default class AutoComplete extends React.Component {
 
   renderSuggestion(suggestion) {
     return (
-      <div onClick={() => this.setState({playerId: suggestion.playerid})}>
+      <div onClick={() => {this.setState({playerId: suggestion.playerid})}}>
         {suggestion.namefirst + ' ' + suggestion.namelast}
       </div>
   )};
@@ -45,7 +45,7 @@ export default class AutoComplete extends React.Component {
   onSuggestionsFetchRequested({ value }) {
     let that = this;
     $.ajax({
-      url: "http://localhost:8000/api/players/search",
+      url: "https://baseball-db.herokuapp.com/api/players/search",
       data: {q: value},
       success: data => { that.setState({ suggestions: data.players }) }
     })
@@ -56,8 +56,7 @@ export default class AutoComplete extends React.Component {
     this.setState({
       suggestions: []
     });
-    // this.props.handleSelect(this.state.value);
-  };
+  }
 
   render() {
     const { value, suggestions } = this.state;
@@ -68,19 +67,35 @@ export default class AutoComplete extends React.Component {
       onChange: this.onChange.bind(this)
     };
 
-    return (
-      <div>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={this.renderSuggestion.bind(this)}
-          inputProps={inputProps}
-        />
-        <button onClick={() => this.props.handleSelect(this.state.playerId)}>GRAPH IT</button>
-      </div>
-    );
-}
+    if (this.props.tabs === 1) {
+      return (
+        <div>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={this.renderSuggestion.bind(this)}
+            inputProps={inputProps}
+          />
+          <button onClick={() => this.props.handleSelect(this.state.playerId)}>GRAPH IT</button>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={this.renderSuggestion.bind(this)}
+            inputProps={inputProps}
+          />
+          <button onClick={() => this.props.handleSelect(this.state.playerId)}>Baby Ruth</button>
+        </div>
+        )
+    }
+  }
 }
 

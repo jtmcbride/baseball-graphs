@@ -10,20 +10,11 @@ export default class Graph extends React.Component {
 		super(props);
 	}
 
-
-	// getStats() {
-
-	// }
-
-	// setUpGraph() {
-
-	// }
-
-	// componentDidMount() {
-	// 	if (this.props.stats) {
-	// 		setUpGraph(this.props.stats, "pler", "h", "so", ReactDOM.findDOMNode(this));
-	// 	}
-	// }
+	componentDidMount() {
+		if (this.props.stats) {
+			setUpGraph(this.props.stats, "pler", "h", "so", ReactDOM.findDOMNode(this));
+		}
+	}
 
 	componentDidUpdate() {
 		setUpGraph(this.props.stats, "plar", this.props.yAxis, this.props.xAxis, ReactDOM.findDOMNode(this));

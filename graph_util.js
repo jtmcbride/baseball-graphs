@@ -2,6 +2,8 @@ import * as d3 from 'd3';
 
 export const setUpGraph = function(data, type, y, x=null, svgNode) {
 
+  d3.select(window).on('resize', resize);
+
   d3.select('#graph').remove()
 
   // let data = JSON.parse(data);
@@ -200,6 +202,48 @@ export const setUpGraph = function(data, type, y, x=null, svgNode) {
         .attr("stroke-width", 2)
         .attr("fill", "none")
         .attr("class", "line");
+
+  const resize = () => {
+    debugger
+
+    let width = parseInt(d3.select("#graph").style("width")) - 60;
+    let height = parseInt(d3.select("#graph").style("height")) - 30;
+
+    // Update the range of the scale with new width/height
+    xScale.range([30, width]).nice(d3.time.year);
+
+    // Update the axis with the new scale
+    svg.select('.x')
+      .call(xAxis);
+
+    svg.select('.y')
+      .call(yAxis);
+
+    let x = svg.select('#x-label')
+      .attr('x', width)
+
+    // Recalculate the positions of datapoints
+    if (x.text() === "Year")
+      circles.attr("cx", function(d) {
+      return xScale(new Date(d[0],0,1));
+    })
+    .attr("cy", function(d) {
+      return yScale(d[1]);
+    })
+    else {
+      circles.attr("cx", function(d) {
+        return xScale(d[0]);
+      })
+      .attr("cy", function(d) {
+        return yScale(d[1]);
+      })
+
+    }
+    svg.select('.line')
+      .attr('d', trendLine(leastSquares()))
+
+  }
+
 };
 
 

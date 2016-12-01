@@ -26069,7 +26069,7 @@
 		"AB": "ab",
 		"R": "r",
 		"2B": "dubs",
-		"3B": "trips",
+		"3B": "trip",
 		"HR": "hr",
 		"BB": "bb",
 		"IBB": "ibb",
@@ -26088,9 +26088,11 @@
 			var _this = _possibleConstructorReturn(this, (Root.__proto__ || Object.getPrototypeOf(Root)).call(this, props));
 	
 			_this.state = {
+				tab: 1,
 				stats: null,
 				xAxis: "h",
-				yAxis: "hr"
+				yAxis: "hr",
+				babe: ""
 			};
 			return _this;
 		}
@@ -26100,17 +26102,12 @@
 			value: function fetchStats() {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: "http://localhost:8000/api/player/aaronha01",
+					url: "https://baseball-db.herokuapp.com/api/player/aaronha01",
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
 				});
 			}
-	
-			// fetchMoreStats(){
-			// 	this.setState({stat: "bb"})
-			// }
-	
 		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
@@ -26121,38 +26118,112 @@
 			value: function handleSelect(val) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://localhost:8000/api/player/' + val,
+					url: 'https://baseball-db.herokuapp.com/api/player/' + val,
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
 				});
 			}
 		}, {
+			key: 'handleBabe',
+			value: function handleBabe(val) {
+				var that = this;
+				_jqueryAjax2.default.ajax({
+					url: 'https://baseball-db.herokuapp.com/api/baberuth/' + val,
+					success: function success(data) {
+						return that.setState({ babe: data.result });
+					}
+				});
+			}
+		}, {
+			key: 'switchTabs',
+			value: function switchTabs(index) {
+				var _this2 = this;
+	
+				return function () {
+					return _this2.setState({ tab: index });
+				};
+			}
+		}, {
+			key: 'currentTab',
+			value: function currentTab() {
+				if (this.state.tab === 1) {
+					return _react2.default.createElement(
+						'header',
+						null,
+						_react2.default.createElement(
+							'div',
+							{ className: 'active' },
+							'Graphs'
+						),
+						_react2.default.createElement(
+							'div',
+							{ onClick: this.switchTabs(2) },
+							'Babe Ruth Number'
+						)
+					);
+				} else if (this.state.tab === 2) {
+					return _react2.default.createElement(
+						'header',
+						null,
+						_react2.default.createElement(
+							'div',
+							{ onClick: this.switchTabs(1) },
+							'Graphs'
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'active' },
+							'Babe Ruth Number'
+						)
+					);
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(_graph2.default, { stats: this.state.stats, xAxis: this.state.xAxis, yAxis: this.state.yAxis }),
-					_react2.default.createElement(
-						'div',
-						{ className: 'inputs' },
-						_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleSelect.bind(this) }),
-						'X-Axis: ',
-						_react2.default.createElement('br', null),
+				var _this3 = this;
+	
+				if (this.state.tab === 1) {
+					return _react2.default.createElement(
+						'main',
+						null,
+						this.currentTab(),
+						_react2.default.createElement(_graph2.default, { stats: this.state.stats, xAxis: this.state.xAxis, yAxis: this.state.yAxis }),
 						_react2.default.createElement(
-							'select',
-							null,
-							Object.keys(statOptions).map(function (stat) {
-								return _react2.default.createElement(
-									'option',
-									{ key: stat, value: statOptions[stat] },
-									stat
-								);
-							})
+							'div',
+							{ className: 'inputs' },
+							_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleSelect.bind(this), tab: this.state.tab }),
+							'X-Axis: ',
+							_react2.default.createElement('br', null),
+							_react2.default.createElement(
+								'select',
+								{ value: this.state.xAxis, onChange: function onChange(e) {
+										return _this3.setState({ xAxis: e.target.value });
+									} },
+								Object.keys(statOptions).map(function (stat) {
+									return _react2.default.createElement(
+										'option',
+										{ key: stat, value: statOptions[stat] },
+										stat
+									);
+								})
+							)
 						)
-					)
-				);
+					);
+				} else if (this.state.tab === 2) {
+					return _react2.default.createElement(
+						'main',
+						null,
+						this.currentTab(),
+						_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleBabe.bind(this) }),
+						_react2.default.createElement(
+							'span',
+							null,
+							this.state.babe
+						)
+					);
+				}
 			}
 		}]);
 	
@@ -26200,21 +26271,14 @@
 			return _possibleConstructorReturn(this, (Graph.__proto__ || Object.getPrototypeOf(Graph)).call(this, props));
 		}
 	
-		// getStats() {
-	
-		// }
-	
-		// setUpGraph() {
-	
-		// }
-	
-		// componentDidMount() {
-		// 	if (this.props.stats) {
-		// 		setUpGraph(this.props.stats, "pler", "h", "so", ReactDOM.findDOMNode(this));
-		// 	}
-		// }
-	
 		_createClass(Graph, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				if (this.props.stats) {
+					(0, _graph_util.setUpGraph)(this.props.stats, "pler", "h", "so", _reactDom2.default.findDOMNode(this));
+				}
+			}
+		}, {
 			key: 'componentDidUpdate',
 			value: function componentDidUpdate() {
 				(0, _graph_util.setUpGraph)(this.props.stats, "plar", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
@@ -26253,6 +26317,8 @@
 	  var x = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 	  var svgNode = arguments[4];
 	
+	
+	  d3.select(window).on('resize', resize);
 	
 	  d3.select('#graph').remove();
 	
@@ -26394,6 +26460,37 @@
 	  // .text(statDict[y]);
 	
 	  svg.append("path").attr('d', trendLine(leastSquares())).attr("stroke", "red").attr("stroke-width", 2).attr("fill", "none").attr("class", "line");
+	
+	  var resize = function resize() {
+	    debugger;
+	
+	    var width = parseInt(d3.select("#graph").style("width")) - 60;
+	    var height = parseInt(d3.select("#graph").style("height")) - 30;
+	
+	    // Update the range of the scale with new width/height
+	    xScale.range([30, width]).nice(d3.time.year);
+	
+	    // Update the axis with the new scale
+	    svg.select('.x').call(xAxis);
+	
+	    svg.select('.y').call(yAxis);
+	
+	    var x = svg.select('#x-label').attr('x', width);
+	
+	    // Recalculate the positions of datapoints
+	    if (x.text() === "Year") circles.attr("cx", function (d) {
+	      return xScale(new Date(d[0], 0, 1));
+	    }).attr("cy", function (d) {
+	      return yScale(d[1]);
+	    });else {
+	      circles.attr("cx", function (d) {
+	        return xScale(d[0]);
+	      }).attr("cy", function (d) {
+	        return yScale(d[1]);
+	      });
+	    }
+	    svg.select('.line').attr('d', trendLine(leastSquares()));
+	  };
 	};
 	
 	// {Object.keys(this.props.stats).map(stat => {
@@ -42869,7 +42966,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { onClick: function onClick() {
-	            return _this2.setState({ playerId: suggestion.playerid });
+	            _this2.setState({ playerId: suggestion.playerid });
 	          } },
 	        suggestion.namefirst + ' ' + suggestion.namelast
 	      );
@@ -42894,7 +42991,7 @@
 	
 	      var that = this;
 	      _jqueryAjax2.default.ajax({
-	        url: "http://localhost:8000/api/players/search",
+	        url: "https://baseball-db.herokuapp.com/api/players/search",
 	        data: { q: value },
 	        success: function success(data) {
 	          that.setState({ suggestions: data.players });
@@ -42910,7 +43007,6 @@
 	      this.setState({
 	        suggestions: []
 	      });
-	      // this.props.handleSelect(this.state.value);
 	    }
 	  }, {
 	    key: 'render',
@@ -42928,25 +43024,47 @@
 	        onChange: this.onChange.bind(this)
 	      };
 	
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_reactAutosuggest2.default, {
-	          suggestions: suggestions,
-	          onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
-	          onSuggestionsClearRequested: this.onSuggestionsClearRequested.bind(this),
-	          getSuggestionValue: getSuggestionValue,
-	          renderSuggestion: this.renderSuggestion.bind(this),
-	          inputProps: inputProps
-	        }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: function onClick() {
-	              return _this3.props.handleSelect(_this3.state.playerId);
-	            } },
-	          'GRAPH IT'
-	        )
-	      );
+	      if (this.props.tabs === 1) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_reactAutosuggest2.default, {
+	            suggestions: suggestions,
+	            onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
+	            onSuggestionsClearRequested: this.onSuggestionsClearRequested.bind(this),
+	            getSuggestionValue: getSuggestionValue,
+	            renderSuggestion: this.renderSuggestion.bind(this),
+	            inputProps: inputProps
+	          }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: function onClick() {
+	                return _this3.props.handleSelect(_this3.state.playerId);
+	              } },
+	            'GRAPH IT'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_reactAutosuggest2.default, {
+	            suggestions: suggestions,
+	            onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
+	            onSuggestionsClearRequested: this.onSuggestionsClearRequested.bind(this),
+	            getSuggestionValue: getSuggestionValue,
+	            renderSuggestion: this.renderSuggestion.bind(this),
+	            inputProps: inputProps
+	          }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: function onClick() {
+	                return _this3.props.handleSelect(_this3.state.playerId);
+	              } },
+	            'Baby Ruth'
+	          )
+	        );
+	      }
 	    }
 	  }]);
 	

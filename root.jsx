@@ -10,7 +10,7 @@ const statOptions = {
 	"AB": "ab",
 	"R": "r",
 	"2B": "dubs",
-	"3B": "trips",
+	"3B": "trip",
 	"HR": "hr",
 	"BB": "bb",
 	"IBB": "ibb",
@@ -25,23 +25,22 @@ export default class Root extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			tab: 1,
 			stats: null,
 			xAxis: "h",
-			yAxis: "hr"
+			yAxis: "hr",
+			babe: ""
 		}
 	}
 
 	fetchStats() {
 		let that = this;
 		$.ajax({
-			url: "http://localhost:8000/api/player/aaronha01",
+			url: "https://baseball-db.herokuapp.com/api/player/aaronha01",
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
 
-	// fetchMoreStats(){
-	// 	this.setState({stat: "bb"})
-	// }
 
 	componentDidMount() {
 		this.fetchStats();
@@ -50,25 +49,75 @@ export default class Root extends React.Component {
 	handleSelect(val) {
 		let that = this;
 		$.ajax({
-			url: `http://localhost:8000/api/player/${val}`,
+			url: `https://baseball-db.herokuapp.com/api/player/${val}`,
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
 
+	handleBabe(val) {
+		let that = this;
+		$.ajax({
+			url: `https://baseball-db.herokuapp.com/api/baberuth/${val}`,
+			success: data => that.setState({babe: data.result})
+		});
+	}
+
+	switchTabs(index) {
+		return () => this.setState({tab: index})
+	}
+
+	currentTab() {
+		if (this.state.tab === 1) {
+			return (
+				<header>
+					<div className="active">
+						Graphs
+					</div>
+					<div onClick={this.switchTabs(2)}>
+						Babe Ruth Number
+					</div>
+				</header>
+			)
+		} else if (this.state.tab === 2) {
+			return (
+				<header>
+					<div onClick={this.switchTabs(1)}>
+						Graphs
+					</div>
+					<div className="active">
+						Babe Ruth Number
+					</div>
+				</header>
+			)
+		}
+	}
+
 	render() {
+		if (this.state.tab === 1) {
+			return (
+				<main>
+					{ this.currentTab() }
+					<Graph stats={this.state.stats} xAxis={this.state.xAxis} yAxis={this.state.yAxis} />
+					<div className="inputs">
+						<Autocomplete handleSelect={this.handleSelect.bind(this)} tab={this.state.tab} />
+						X-Axis: <br />
+						<select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
+							{Object.keys(statOptions).map(stat => {
+								return <option key={stat} value={statOptions[stat]}>{stat}</option>
+							})}
+						</select>
+					</div>
+				</main>
+			);
+		}
+	else if (this.state.tab === 2) {
 		return (
-			<div>
-				<Graph stats={this.state.stats} xAxis={this.state.xAxis} yAxis={this.state.yAxis} />
-				<div className="inputs">
-					<Autocomplete handleSelect={this.handleSelect.bind(this)} />
-					X-Axis: <br />
-					<select>
-						{Object.keys(statOptions).map(stat => {
-							return <option key={stat} value={statOptions[stat]}>{stat}</option>
-						})}
-					</select>
-				</div>
-			</div>
-		);
+				<main>
+					{ this.currentTab() }
+					<Autocomplete handleSelect={this.handleBabe.bind(this)} />
+					<span>{this.state.babe}</span>
+				</main>
+			);
+		}
 	}
 }
