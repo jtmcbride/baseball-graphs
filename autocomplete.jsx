@@ -69,7 +69,7 @@ export default class AutoComplete extends React.Component {
 
     if (this.props.tab === 1) {
       return (
-        <div>
+        <div className="autocomplete">
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
@@ -83,7 +83,7 @@ export default class AutoComplete extends React.Component {
       );
     } else {
       return (
-        <div>
+        <div className="autocomplete">
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}

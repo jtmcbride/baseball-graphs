@@ -26070,7 +26070,7 @@
 		"H": "h",
 		"AB": "ab",
 		"R": "r",
-		"2B": "dubs",
+		"2B": "dub",
 		"3B": "trip",
 		"HR": "hr",
 		"BB": "bb",
@@ -26186,7 +26186,6 @@
 			value: function formatBabe() {
 				var _this3 = this;
 	
-				debugger;
 				if (this.state.babe) {
 					var _ret = function () {
 						var babe = _this3.state.babe;
@@ -26196,32 +26195,36 @@
 								{ className: 'babe-ruth' },
 								_react2.default.createElement(
 									'div',
-									null,
+									{ className: 'main-player' },
 									babe.player
 								),
-								'played with',
+								_react2.default.createElement(
+									'span',
+									{ className: 'no-color' },
+									'played with'
+								),
 								babe.player_links.map(function (player, idx) {
 									if (idx != babe.distance) {
 										return _react2.default.createElement(
 											'div',
-											null,
+											{ key: idx },
 											_react2.default.createElement(
 												'div',
-												null,
+												{ className: 'link-player' },
 												player,
 												' on the ',
 												babe.teams[idx]
 											),
 											_react2.default.createElement(
 												'span',
-												null,
+												{ className: 'no-color' },
 												'who played with'
 											)
 										);
 									} else {
 										return _react2.default.createElement(
 											'div',
-											null,
+											{ key: 'the-great-one', className: 'the-sultan-of-swat the-great-bambino baby-ruth' },
 											player,
 											' on the ',
 											babe.teams[idx],
@@ -26258,22 +26261,40 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'inputs' },
-							_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleSelect.bind(this), tab: this.state.tab }),
-							'X-Axis: ',
-							_react2.default.createElement('br', null),
 							_react2.default.createElement(
-								'select',
-								{ value: this.state.xAxis, onChange: function onChange(e) {
-										return _this4.setState({ xAxis: e.target.value });
-									} },
-								Object.keys(statOptions).map(function (stat) {
-									return _react2.default.createElement(
-										'option',
-										{ key: stat, value: statOptions[stat] },
-										stat
-									);
-								})
-							)
+								'span',
+								null,
+								'X-Axis: ',
+								_react2.default.createElement(
+									'select',
+									{ value: this.state.xAxis, onChange: function onChange(e) {
+											return _this4.setState({ xAxis: e.target.value });
+										} },
+									Object.keys(statOptions).map(function (stat) {
+										return _react2.default.createElement(
+											'option',
+											{ key: stat, value: statOptions[stat] },
+											stat
+										);
+									})
+								),
+								_react2.default.createElement('br', null),
+								'Y-Axis: ',
+								_react2.default.createElement(
+									'select',
+									{ value: this.state.yAxis, onChange: function onChange(e) {
+											return _this4.setState({ yAxis: e.target.value });
+										} },
+									Object.keys(statOptions).map(function (stat) {
+										return _react2.default.createElement(
+											'option',
+											{ key: stat, value: statOptions[stat] },
+											stat
+										);
+									})
+								)
+							),
+							_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleSelect.bind(this), tab: this.state.tab })
 						)
 					);
 				} else if (this.state.tab === 2) {
@@ -26340,13 +26361,13 @@
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				if (this.props.stats) {
-					(0, _graph_util.setUpGraph)(this.props.stats, "pler", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
+					(0, _graph_util.setUpGraph)(this.props.stats, "n", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
 				}
 			}
 		}, {
 			key: 'componentDidUpdate',
 			value: function componentDidUpdate() {
-				(0, _graph_util.setUpGraph)(this.props.stats, "plar", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
+				(0, _graph_util.setUpGraph)(this.props.stats, "n", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
 			}
 		}, {
 			key: 'render',
@@ -43094,7 +43115,7 @@
 	      if (this.props.tab === 1) {
 	        return _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'autocomplete' },
 	          _react2.default.createElement(_reactAutosuggest2.default, {
 	            suggestions: suggestions,
 	            onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
@@ -43114,7 +43135,7 @@
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'autocomplete' },
 	          _react2.default.createElement(_reactAutosuggest2.default, {
 	            suggestions: suggestions,
 	            onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),

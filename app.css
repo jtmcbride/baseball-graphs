@@ -1,15 +1,86 @@
 body {
   font-family: Helvetica, sans-serif;
+  margin: 0;
 }
 
 circle:hover {
   fill: red;
 }
 
+header {
+  display: flex;
+  padding: 10px;
+  border-bottom: 2px solid black;
+  justify-content: space-around;
+}
+
 
 header > div {
   display: inline-block;
   cursor: pointer;
+  border-bottom: 2px solid white;
+  transition: border .2s ease-in;
+}
+
+header > div:first-child {
+  /*border-right: 1px solid black;*/
+}
+
+header > div:hover {
+  border-bottom: 2px solid green;
+}
+
+header > div.active {
+  border-bottom: 2px solid cyan;
+}
+
+.inputs {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.inputs > span {
+  margin-top: 10px  ;
+}
+
+.autocomplete {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-around;
+}
+
+.babe-ruth {
+  margin: 10px auto;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+/*    background: -webkit-linear-gradient(red, green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;*/
+}
+
+.no-color {
+  color: black;
+}
+
+.babe-ruth > * {
+  text-align: center;
+}
+
+.the-sultan-of-swat {
+  font-size: 22px;
+  color: green;
+}
+
+.main-player {
+  font-size: 20px;
+  color: red;
+}
+
+.link-player {
+  font-size: 18px;
+  color: blue;
 }
 
 .axis path,

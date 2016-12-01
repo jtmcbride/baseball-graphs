@@ -9,7 +9,7 @@ const statOptions = {
 	"H": "h",
 	"AB": "ab",
 	"R": "r",
-	"2B": "dubs",
+	"2B": "dub",
 	"3B": "trip",
 	"HR": "hr",
 	"BB": "bb",
@@ -94,23 +94,22 @@ export default class Root extends React.Component {
 
 
 	formatBabe() {
-		debugger
 		if (this.state.babe){
 			let babe = this.state.babe;
 			return (
 				<section className="babe-ruth">
-					<div>{babe.player}</div>
-					played with 
+					<div className="main-player">{babe.player}</div>
+					<span className="no-color">played with</span>
 					{babe.player_links.map((player, idx) => {
 						if (idx != babe.distance){
 							return (
-								<div>
-									<div>{player} on the {babe.teams[idx]}</div>
-									<span>who played with</span>
+								<div key={idx}>
+									<div className="link-player">{player} on the {babe.teams[idx]}</div>
+									<span className="no-color">who played with</span>
 								</div>
 							)
 						} else {
-							return <div>{player} on the {babe.teams[idx]}.</div>
+							return <div key="the-great-one" className="the-sultan-of-swat the-great-bambino baby-ruth">{player} on the {babe.teams[idx]}.</div>
 						}
 					})}
 					<span>{babe.distance} steps away.</span>
@@ -126,13 +125,21 @@ export default class Root extends React.Component {
 					{ this.currentTab() }
 					<Graph stats={this.state.stats} xAxis={this.state.xAxis} yAxis={this.state.yAxis} />
 					<div className="inputs">
+						<span>
+							
+							X-Axis: <select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
+								{Object.keys(statOptions).map(stat => {
+									return <option key={stat} value={statOptions[stat]}>{stat}</option>
+								})}
+							</select>
+							<br />
+							Y-Axis: <select value={this.state.yAxis} onChange={e => this.setState({yAxis: e.target.value})}>
+								{Object.keys(statOptions).map(stat => {
+									return <option key={stat} value={statOptions[stat]}>{stat}</option>
+								})}
+							</select>
+						</span>
 						<Autocomplete handleSelect={this.handleSelect.bind(this)} tab={this.state.tab} />
-						X-Axis: <br />
-						<select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
-							{Object.keys(statOptions).map(stat => {
-								return <option key={stat} value={statOptions[stat]}>{stat}</option>
-							})}
-						</select>
 					</div>
 				</main>
 			);
