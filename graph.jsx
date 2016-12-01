@@ -12,7 +12,7 @@ export default class Graph extends React.Component {
 
 	componentDidMount() {
 		if (this.props.stats) {
-			setUpGraph(this.props.stats, "pler", "h", "so", ReactDOM.findDOMNode(this));
+			setUpGraph(this.props.stats, "pler", this.props.yAxis, this.props.xAxis, ReactDOM.findDOMNode(this));
 		}
 	}
 

@@ -138,25 +138,25 @@ export const setUpGraph = function(data, type, y, x=null, svgNode) {
         return d['playerid']
       })
       .on("mouseenter", function(d) {
-        circleId = d['playerid'];
-        circleX = d[x];
-        circleY = d[y];
-        console.log(circleId);
-        c = $('#' + circleId);
-        c.parent().append("<text class='datatext' fill='red' font-size='20px' x='" +
-         xScale(circleX) + "' y='" + yScale(circleY) + "'>"+ circleId + circleX + ","+ circleY + "</text>")
+        let circleId = d['playerid_id'];
+        let circleX = d[x];
+        let circleY = d[y];
+        let c = $('#' + circleId);
+        c.parent().append("<div class='datatext' fill='red' font-size='20px' x='" +
+                xScale(circleX) + "' y='" + yScale(circleY) + "'>"+ circleId + circleX + ","+ circleY + "</div>")
       })
       .on("mouseleave", function(d){
 
       })
       .on("click", function(d) {
-        window.location.href = "players/" + d['playerid'] + "?year=" + $('#year').val() +
-          "&ystat=" + y + '&xstat=' + x
+        // window.location.href = "players/" + d['playerid'] + "?year=" + $('#year').val() +
+        //   "&ystat=" + y + '&xstat=' + x
+
       })
       .append("title")
         // append a tooltip title to each point
         .text(function(d) {
-          return d['playerid'] + "\nx:" + d[x] + ", y:" + d[y];
+          return d['yearid'] + "\nx:" + d[x] + ", y:" + d[y];
         });
     }
 
@@ -196,12 +196,12 @@ export const setUpGraph = function(data, type, y, x=null, svgNode) {
     .style("text-anchor", "end")
     // .text(statDict[y]);
 
-  svg.append("path")
-    .attr('d', trendLine(leastSquares()))
-    .attr("stroke", "red")
-        .attr("stroke-width", 2)
-        .attr("fill", "none")
-        .attr("class", "line");
+  // svg.append("path")
+  //   .attr('d', trendLine(leastSquares()))
+  //   .attr("stroke", "red")
+  //       .attr("stroke-width", 2)
+  //       .attr("fill", "none")
+  //       .attr("class", "line");
 
   const resize = () => {
     debugger
@@ -245,10 +245,3 @@ export const setUpGraph = function(data, type, y, x=null, svgNode) {
   }
 
 };
-
-
-
-
-// {Object.keys(this.props.stats).map(stat => {
-//             return <p key={stat}>{this.props.stats[stat]["namelast"]}</p>
-//           })}

@@ -6,6 +6,24 @@ circle:hover {
   fill: red;
 }
 
+
+header > div {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
 .react-autosuggest__container {
   position: relative;
 }

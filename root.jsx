@@ -92,6 +92,33 @@ export default class Root extends React.Component {
 		}
 	}
 
+
+	formatBabe() {
+		debugger
+		if (this.state.babe){
+			let babe = this.state.babe;
+			return (
+				<section className="babe-ruth">
+					<div>{babe.player}</div>
+					played with 
+					{babe.player_links.map((player, idx) => {
+						if (idx != babe.distance){
+							return (
+								<div>
+									<div>{player} on the {babe.teams[idx]}</div>
+									<span>who played with</span>
+								</div>
+							)
+						} else {
+							return <div>{player} on the {babe.teams[idx]}.</div>
+						}
+					})}
+					<span>{babe.distance} steps away.</span>
+				</section>
+			)
+		} else { return null }
+	}
+
 	render() {
 		if (this.state.tab === 1) {
 			return (
@@ -115,7 +142,7 @@ export default class Root extends React.Component {
 				<main>
 					{ this.currentTab() }
 					<Autocomplete handleSelect={this.handleBabe.bind(this)} />
-					<span>{this.state.babe}</span>
+					<div>{this.formatBabe()}</div>
 				</main>
 			);
 		}

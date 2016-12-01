@@ -26037,6 +26037,8 @@
 		value: true
 	});
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -26180,9 +26182,72 @@
 				}
 			}
 		}, {
+			key: 'formatBabe',
+			value: function formatBabe() {
+				var _this3 = this;
+	
+				debugger;
+				if (this.state.babe) {
+					var _ret = function () {
+						var babe = _this3.state.babe;
+						return {
+							v: _react2.default.createElement(
+								'section',
+								{ className: 'babe-ruth' },
+								_react2.default.createElement(
+									'div',
+									null,
+									babe.player
+								),
+								'played with',
+								babe.player_links.map(function (player, idx) {
+									if (idx != babe.distance) {
+										return _react2.default.createElement(
+											'div',
+											null,
+											_react2.default.createElement(
+												'div',
+												null,
+												player,
+												' on the ',
+												babe.teams[idx]
+											),
+											_react2.default.createElement(
+												'span',
+												null,
+												'who played with'
+											)
+										);
+									} else {
+										return _react2.default.createElement(
+											'div',
+											null,
+											player,
+											' on the ',
+											babe.teams[idx],
+											'.'
+										);
+									}
+								}),
+								_react2.default.createElement(
+									'span',
+									null,
+									babe.distance,
+									' steps away.'
+								)
+							)
+						};
+					}();
+	
+					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+				} else {
+					return null;
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				var _this3 = this;
+				var _this4 = this;
 	
 				if (this.state.tab === 1) {
 					return _react2.default.createElement(
@@ -26199,7 +26264,7 @@
 							_react2.default.createElement(
 								'select',
 								{ value: this.state.xAxis, onChange: function onChange(e) {
-										return _this3.setState({ xAxis: e.target.value });
+										return _this4.setState({ xAxis: e.target.value });
 									} },
 								Object.keys(statOptions).map(function (stat) {
 									return _react2.default.createElement(
@@ -26218,9 +26283,9 @@
 						this.currentTab(),
 						_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleBabe.bind(this) }),
 						_react2.default.createElement(
-							'span',
+							'div',
 							null,
-							this.state.babe
+							this.formatBabe()
 						)
 					);
 				}
@@ -26275,7 +26340,7 @@
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				if (this.props.stats) {
-					(0, _graph_util.setUpGraph)(this.props.stats, "pler", "h", "so", _reactDom2.default.findDOMNode(this));
+					(0, _graph_util.setUpGraph)(this.props.stats, "pler", this.props.yAxis, this.props.xAxis, _reactDom2.default.findDOMNode(this));
 				}
 			}
 		}, {
@@ -26433,18 +26498,19 @@
 	    }).attr("data-playerid", function (d) {
 	      return d['playerid'];
 	    }).on("mouseenter", function (d) {
-	      circleId = d['playerid'];
-	      circleX = d[x];
-	      circleY = d[y];
-	      console.log(circleId);
-	      c = $('#' + circleId);
-	      c.parent().append("<text class='datatext' fill='red' font-size='20px' x='" + xScale(circleX) + "' y='" + yScale(circleY) + "'>" + circleId + circleX + "," + circleY + "</text>");
+	      var circleId = d['playerid_id'];
+	      var circleX = d[x];
+	      var circleY = d[y];
+	      var c = $('#' + circleId);
+	      c.parent().append("<div class='datatext' fill='red' font-size='20px' x='" + xScale(circleX) + "' y='" + yScale(circleY) + "'>" + circleId + circleX + "," + circleY + "</div>");
 	    }).on("mouseleave", function (d) {}).on("click", function (d) {
-	      window.location.href = "players/" + d['playerid'] + "?year=" + $('#year').val() + "&ystat=" + y + '&xstat=' + x;
+	      // window.location.href = "players/" + d['playerid'] + "?year=" + $('#year').val() +
+	      //   "&ystat=" + y + '&xstat=' + x
+	
 	    }).append("title")
 	    // append a tooltip title to each point
 	    .text(function (d) {
-	      return d['playerid'] + "\nx:" + d[x] + ", y:" + d[y];
+	      return d['yearid'] + "\nx:" + d[x] + ", y:" + d[y];
 	    });
 	  }
 	
@@ -26459,7 +26525,12 @@
 	  svg.append('g').attr("class", "y axis").attr('transform', 'translate(' + 30 + ', 0)').call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 12).attr("x", -23).style("text-anchor", "end");
 	  // .text(statDict[y]);
 	
-	  svg.append("path").attr('d', trendLine(leastSquares())).attr("stroke", "red").attr("stroke-width", 2).attr("fill", "none").attr("class", "line");
+	  // svg.append("path")
+	  //   .attr('d', trendLine(leastSquares()))
+	  //   .attr("stroke", "red")
+	  //       .attr("stroke-width", 2)
+	  //       .attr("fill", "none")
+	  //       .attr("class", "line");
 	
 	  var resize = function resize() {
 	    debugger;
@@ -26492,10 +26563,6 @@
 	    svg.select('.line').attr('d', trendLine(leastSquares()));
 	  };
 	};
-	
-	// {Object.keys(this.props.stats).map(stat => {
-	//             return <p key={stat}>{this.props.stats[stat]["namelast"]}</p>
-	//           })}
 
 /***/ },
 /* 182 */
@@ -43024,7 +43091,7 @@
 	        onChange: this.onChange.bind(this)
 	      };
 	
-	      if (this.props.tabs === 1) {
+	      if (this.props.tab === 1) {
 	        return _react2.default.createElement(
 	          'div',
 	          null,

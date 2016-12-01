@@ -67,7 +67,7 @@ export default class AutoComplete extends React.Component {
       onChange: this.onChange.bind(this)
     };
 
-    if (this.props.tabs === 1) {
+    if (this.props.tab === 1) {
       return (
         <div>
           <Autosuggest
