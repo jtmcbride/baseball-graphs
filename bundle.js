@@ -43135,7 +43135,7 @@
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'autocomplete' },
+	          { className: 'autocomplete ruth' },
 	          _react2.default.createElement(_reactAutosuggest2.default, {
 	            suggestions: suggestions,
 	            onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
@@ -43149,7 +43149,7 @@
 	            { onClick: function onClick() {
 	                return _this3.props.handleSelect(_this3.state.playerId);
 	              } },
-	            'Baby Ruth'
+	            'Calculate'
 	          )
 	        );
 	      }

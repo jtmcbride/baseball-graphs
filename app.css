@@ -48,6 +48,15 @@ header > div.active {
   display: flex;
   margin-top: 10px;
   justify-content: space-around;
+  width: 500px;
+}
+
+.autocomplete.ruth {
+  margin: 10px  auto;
+}
+
+button {
+  border-radius: 5px;
 }
 
 .babe-ruth {

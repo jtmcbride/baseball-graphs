@@ -83,7 +83,7 @@ export default class AutoComplete extends React.Component {
       );
     } else {
       return (
-        <div className="autocomplete">
+        <div className="autocomplete ruth">
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
@@ -92,7 +92,7 @@ export default class AutoComplete extends React.Component {
             renderSuggestion={this.renderSuggestion.bind(this)}
             inputProps={inputProps}
           />
-          <button onClick={() => this.props.handleSelect(this.state.playerId)}>Baby Ruth</button>
+          <button onClick={() => this.props.handleSelect(this.state.playerId)}>Calculate</button>
         </div>
         )
     }
