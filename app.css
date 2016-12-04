@@ -38,8 +38,8 @@ header a:hover {
 	color: #0971B2;
 }
 
-header a:before {
-	content: "\f113";
+header a:after {
+	content: " \f113";
 }
 
 nav {
@@ -66,8 +66,17 @@ nav > div:hover {
 
 nav > div.active {
   border-bottom: 5px solid #0971B2;
-  /*background: lightgrey;*/
   opacity: 1;
+}
+
+.instructions {
+	width: 75%;
+	margin: 30px auto;
+	text-align: center;
+	background: #0971B2;
+	color: white;
+	border-radius: 5px;
+	padding: 10px;
 }
 
 
@@ -82,21 +91,44 @@ section.logo {
 	cursor: default;
 }
 
+select {
+	font-size: 14px;
+	border: 1px solid #ccc;
+	width: 100%;
+	height: 35px;
+}
+
 .inputs {
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
 }
 
-.inputs > span {
-  margin-top: 10px  ;
+.inputs div > span {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.axes {
+	display: flex;
+	width: 40%;
+}
+
+.axes > span {
+	margin-right: 10px;
+	width: 80%;
+}
+
+.label {
+	font-size: 12px;
 }
 
 .autocomplete {
   display: flex;
   margin-top: 10px;
   justify-content: space-around;
-  width: 500px;
+  width: 400px;
 }
 
 .autocomplete.ruth {

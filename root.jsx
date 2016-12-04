@@ -82,7 +82,7 @@ export default class Root extends React.Component {
 						</div>
 					</nav>
 					<a href="https://github.com/jtmcbride/baseball-graphs">
-
+						Github
 					</a>
 				</header>
 			)
@@ -141,20 +141,23 @@ export default class Root extends React.Component {
 					{ this.currentTab() }
 					<Graph stats={this.state.stats} xAxis={this.state.xAxis} yAxis={this.state.yAxis} />
 					<div className="inputs">
-						<span>
-							
-							X-Axis: <select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
-								{Object.keys(statOptions).map(stat => {
-									return <option key={stat} value={statOptions[stat]}>{stat}</option>
-								})}
-							</select>
-							<br />
-							Y-Axis: <select value={this.state.yAxis} onChange={e => this.setState({yAxis: e.target.value})}>
-								{Object.keys(statOptions).map(stat => {
-									return <option key={stat} value={statOptions[stat]}>{stat}</option>
-								})}
-							</select>
-						</span>
+						<div className="axes">
+							<span>
+								<span className="label">X-Axis:</span> 
+								<select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
+									{Object.keys(statOptions).map(stat => {
+										return <option key={stat} value={statOptions[stat]}>{stat}</option>
+									})}
+								</select>
+							</span>
+							<span >
+								<span className="label">Y-Axis:</span> <select value={this.state.yAxis} onChange={e => this.setState({yAxis: e.target.value})}>
+									{Object.keys(statOptions).map(stat => {
+										return <option key={stat} value={statOptions[stat]}>{stat}</option>
+									})}
+								</select>
+							</span>
+						</div>
 						<Autocomplete handleSelect={this.handleSelect.bind(this)} tab={this.state.tab} />
 					</div>
 				</main>
@@ -164,6 +167,9 @@ export default class Root extends React.Component {
 		return (
 				<main>
 					{ this.currentTab() }
+					<p className="instructions">
+						It's the Bacon number of baseball. Select any baseball player and find a path connecting them to the Sultan of Swat, Babe Ruth.
+					</p>
 					<Autocomplete handleSelect={this.handleBabe.bind(this)} />
 					<div>{this.formatBabe()}</div>
 				</main>

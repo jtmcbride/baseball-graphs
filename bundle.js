@@ -26172,7 +26172,11 @@
 								'Babe Ruth Number'
 							)
 						),
-						_react2.default.createElement('a', { href: 'https://github.com/jtmcbride/baseball-graphs' })
+						_react2.default.createElement(
+							'a',
+							{ href: 'https://github.com/jtmcbride/baseball-graphs' },
+							'Github'
+						)
 					);
 				} else if (this.state.tab === 2) {
 					return _react2.default.createElement(
@@ -26282,36 +26286,52 @@
 							'div',
 							{ className: 'inputs' },
 							_react2.default.createElement(
-								'span',
-								null,
-								'X-Axis: ',
+								'div',
+								{ className: 'axes' },
 								_react2.default.createElement(
-									'select',
-									{ value: this.state.xAxis, onChange: function onChange(e) {
-											return _this4.setState({ xAxis: e.target.value });
-										} },
-									Object.keys(statOptions).map(function (stat) {
-										return _react2.default.createElement(
-											'option',
-											{ key: stat, value: statOptions[stat] },
-											stat
-										);
-									})
+									'span',
+									null,
+									_react2.default.createElement(
+										'span',
+										{ className: 'label' },
+										'X-Axis:'
+									),
+									_react2.default.createElement(
+										'select',
+										{ value: this.state.xAxis, onChange: function onChange(e) {
+												return _this4.setState({ xAxis: e.target.value });
+											} },
+										Object.keys(statOptions).map(function (stat) {
+											return _react2.default.createElement(
+												'option',
+												{ key: stat, value: statOptions[stat] },
+												stat
+											);
+										})
+									)
 								),
-								_react2.default.createElement('br', null),
-								'Y-Axis: ',
 								_react2.default.createElement(
-									'select',
-									{ value: this.state.yAxis, onChange: function onChange(e) {
-											return _this4.setState({ yAxis: e.target.value });
-										} },
-									Object.keys(statOptions).map(function (stat) {
-										return _react2.default.createElement(
-											'option',
-											{ key: stat, value: statOptions[stat] },
-											stat
-										);
-									})
+									'span',
+									null,
+									_react2.default.createElement(
+										'span',
+										{ className: 'label' },
+										'Y-Axis:'
+									),
+									' ',
+									_react2.default.createElement(
+										'select',
+										{ value: this.state.yAxis, onChange: function onChange(e) {
+												return _this4.setState({ yAxis: e.target.value });
+											} },
+										Object.keys(statOptions).map(function (stat) {
+											return _react2.default.createElement(
+												'option',
+												{ key: stat, value: statOptions[stat] },
+												stat
+											);
+										})
+									)
 								)
 							),
 							_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleSelect.bind(this), tab: this.state.tab })
@@ -26322,6 +26342,11 @@
 						'main',
 						null,
 						this.currentTab(),
+						_react2.default.createElement(
+							'p',
+							{ className: 'instructions' },
+							'It\'s the Bacon number of baseball. Select any baseball player and find a path connecting them to the Sultan of Swat, Babe Ruth.'
+						),
 						_react2.default.createElement(_autocomplete2.default, { handleSelect: this.handleBabe.bind(this) }),
 						_react2.default.createElement(
 							'div',
