@@ -63,30 +63,46 @@ export default class Root extends React.Component {
 	}
 
 	switchTabs(index) {
-		return () => this.setState({tab: index})
+		return () => this.setState( {tab: index} )
 	}
 
 	currentTab() {
 		if (this.state.tab === 1) {
 			return (
 				<header>
-					<div className="active">
-						Graphs
-					</div>
-					<div onClick={this.switchTabs(2)}>
-						Babe Ruth Number
-					</div>
+					<nav>
+						<section className="logo">
+							Baseball Graphs
+						</section>
+						<div className="active">
+							Home
+						</div>
+						<div onClick={this.switchTabs(2)}>
+							Babe Ruth Number
+						</div>
+					</nav>
+					<a href="https://github.com/jtmcbride/baseball-graphs">
+
+					</a>
 				</header>
 			)
 		} else if (this.state.tab === 2) {
 			return (
 				<header>
-					<div onClick={this.switchTabs(1)}>
-						Graphs
-					</div>
-					<div className="active">
-						Babe Ruth Number
-					</div>
+					<nav>
+						<section className="logo">
+							Baseball Graphs
+						</section>
+						<div onClick={this.switchTabs(1)}>
+							Home
+						</div>
+						<div className="active">
+							Babe Ruth Number
+						</div>
+					</nav>
+					<a href="https://github.com/jtmcbride/baseball-graphs">
+	
+					</a>
 				</header>
 			)
 		}

@@ -6,12 +6,6 @@ import $ from 'jquery-ajax';
 const getSuggestionValue = suggestion => suggestion.namefirst + ' ' + suggestion.namelast;
 
 const getSuggestions = value => {
-  // const inputValue = value.trim().toLowerCase();
-  // const inputLength = inputValue.length;
-
-  // return inputLength === 0 ? [] : languages.filter(lang =>
-  //   lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  // );
   return this.state.suggestions;
 };
 
@@ -21,14 +15,14 @@ export default class AutoComplete extends React.Component {
 	    super(props);
 	    this.state = {
 	      value: '',
-        playerId: '',
+        playerId: 'aaronha01',
 	      suggestions: []
     	};
     }
 
   renderSuggestion(suggestion) {
     return (
-      <div onClick={() => {this.setState({playerId: suggestion.playerid})}}>
+      <div className="suggestion" onClick={() => this.setState({playerId: suggestion.playerid})}>
         {suggestion.namefirst + ' ' + suggestion.namelast}
       </div>
   )};
@@ -78,7 +72,9 @@ export default class AutoComplete extends React.Component {
             renderSuggestion={this.renderSuggestion.bind(this)}
             inputProps={inputProps}
           />
-          <button onClick={() => this.props.handleSelect(this.state.playerId)}>GRAPH IT</button>
+          <button onClick={() => this.props.handleSelect(this.state.playerId)}>
+            Graph
+          </button>
         </div>
       );
     } else {

@@ -26154,30 +26154,50 @@
 						'header',
 						null,
 						_react2.default.createElement(
-							'div',
-							{ className: 'active' },
-							'Graphs'
+							'nav',
+							null,
+							_react2.default.createElement(
+								'section',
+								{ className: 'logo' },
+								'Baseball Graphs'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'active' },
+								'Home'
+							),
+							_react2.default.createElement(
+								'div',
+								{ onClick: this.switchTabs(2) },
+								'Babe Ruth Number'
+							)
 						),
-						_react2.default.createElement(
-							'div',
-							{ onClick: this.switchTabs(2) },
-							'Babe Ruth Number'
-						)
+						_react2.default.createElement('a', { href: 'https://github.com/jtmcbride/baseball-graphs' })
 					);
 				} else if (this.state.tab === 2) {
 					return _react2.default.createElement(
 						'header',
 						null,
 						_react2.default.createElement(
-							'div',
-							{ onClick: this.switchTabs(1) },
-							'Graphs'
+							'nav',
+							null,
+							_react2.default.createElement(
+								'section',
+								{ className: 'logo' },
+								'Baseball Graphs'
+							),
+							_react2.default.createElement(
+								'div',
+								{ onClick: this.switchTabs(1) },
+								'Home'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'active' },
+								'Babe Ruth Number'
+							)
 						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'active' },
-							'Babe Ruth Number'
-						)
+						_react2.default.createElement('a', { href: 'https://github.com/jtmcbride/baseball-graphs' })
 					);
 				}
 			}
@@ -43021,12 +43041,6 @@
 	};
 	
 	var getSuggestions = function getSuggestions(value) {
-	  // const inputValue = value.trim().toLowerCase();
-	  // const inputLength = inputValue.length;
-	
-	  // return inputLength === 0 ? [] : languages.filter(lang =>
-	  //   lang.name.toLowerCase().slice(0, inputLength) === inputValue
-	  // );
 	  return undefined.state.suggestions;
 	};
 	
@@ -43040,7 +43054,7 @@
 	
 	    _this.state = {
 	      value: '',
-	      playerId: '',
+	      playerId: 'aaronha01',
 	      suggestions: []
 	    };
 	    return _this;
@@ -43053,8 +43067,8 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { onClick: function onClick() {
-	            _this2.setState({ playerId: suggestion.playerid });
+	        { className: 'suggestion', onClick: function onClick() {
+	            return _this2.setState({ playerId: suggestion.playerid });
 	          } },
 	        suggestion.namefirst + ' ' + suggestion.namelast
 	      );
@@ -43129,7 +43143,7 @@
 	            { onClick: function onClick() {
 	                return _this3.props.handleSelect(_this3.state.playerId);
 	              } },
-	            'GRAPH IT'
+	            'Graph'
 	          )
 	        );
 	      } else {
