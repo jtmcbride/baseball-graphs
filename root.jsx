@@ -27,11 +27,12 @@ export default class Root extends React.Component {
 		super(props);
 		this.state = {
 			tab: 1,
-			stats: null,
-			xAxis: "h",
-			yAxis: "hr",
+			// stats: null,
+			// xAxis: "h",
+			// yAxis: "hr",
 			babe: "",
-			team: null
+			team: null,
+			players: ["Babe Ruth"]
 		}
 	}
 
@@ -47,14 +48,10 @@ export default class Root extends React.Component {
 		let that = this;
 		$.ajax({
 			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/teams?id=${d.team_id}`,
-			success: data => {debugger;that.setState({team: data.team})}
+			success: data => that.setState({team: data.team, players: data.players})
 		});
 	}
 
-
-	// componentDidMount() {
-	// 	this.fetchStats();
-	// }
 
 	handleSelect(val) {
 		let that = this;
@@ -149,13 +146,10 @@ export default class Root extends React.Component {
 			return (
 				<main>
 					{ this.currentTab() }
+					<TeamDetail team={this.state.team} players={this.state.players} />
 					<Graph 
-						stats={this.state.stats} 
 						clickHandler={this.handleCircleClick.bind(this)}
-						xAxis={this.state.xAxis} 
-						yAxis={this.state.yAxis} 
 					/>
-					<TeamDetail team={this.state.team} />
 				</main>
 			);
 		}
