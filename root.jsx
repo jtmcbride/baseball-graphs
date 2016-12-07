@@ -39,7 +39,7 @@ export default class Root extends React.Component {
 	fetchStats() {
 		let that = this;
 		$.ajax({
-			url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/aaronha01",
+			url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/aaronha01",
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
@@ -47,7 +47,7 @@ export default class Root extends React.Component {
 	handleCircleClick(d) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/teams?id=${d.team_id}`,
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/teams?id=${d.team_id}`,
 			success: data => that.setState({team: data.team, players: data.players})
 		});
 	}
@@ -56,7 +56,7 @@ export default class Root extends React.Component {
 	handleSelect(val) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/${val}`,
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/${val}`,
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
@@ -64,7 +64,7 @@ export default class Root extends React.Component {
 	handleBabe(val) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/baberuth/${val}`,
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/baberuth/${val}`,
 			success: data => that.setState({babe: data.result})
 		});
 	}
