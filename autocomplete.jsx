@@ -34,8 +34,7 @@ export default class AutoComplete extends React.Component {
     });
   };
 
-  // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
+
   onSuggestionsFetchRequested({ value }) {
     let that = this;
     $.ajax({
@@ -45,7 +44,7 @@ export default class AutoComplete extends React.Component {
     })
   };
 
-  // Autosuggest will call this function every time you need to clear suggestions.
+
   onSuggestionsClearRequested() {
     this.setState({
       suggestions: []
@@ -77,6 +76,7 @@ export default class AutoComplete extends React.Component {
           </button>
         </div>
       );
+
     } else {
       return (
         <div className="autocomplete ruth">
@@ -90,7 +90,7 @@ export default class AutoComplete extends React.Component {
           />
           <button onClick={() => this.props.handleSelect(this.state.playerId)}>Calculate</button>
         </div>
-        )
+        );
     }
   }
 }

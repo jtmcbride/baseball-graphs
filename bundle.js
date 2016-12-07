@@ -26110,7 +26110,7 @@
 			value: function fetchStats() {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/aaronha01",
+					url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/aaronha01",
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
@@ -26121,7 +26121,7 @@
 			value: function handleCircleClick(d) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/teams?id=' + d.team_id,
+					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/teams?id=' + d.team_id,
 					success: function success(data) {
 						return that.setState({ team: data.team, players: data.players });
 					}
@@ -26132,7 +26132,7 @@
 			value: function handleSelect(val) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/' + val,
+					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/' + val,
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
@@ -26143,7 +26143,7 @@
 			value: function handleBabe(val) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/baberuth/' + val,
+					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/baberuth/' + val,
 					success: function success(data) {
 						return that.setState({ babe: data.result });
 					}
@@ -36088,10 +36088,6 @@
 	    }
 	  }, {
 	    key: 'onSuggestionsFetchRequested',
-	
-	
-	    // Autosuggest will call this function every time you need to update suggestions.
-	    // You already implemented this logic above, so just use it.
 	    value: function onSuggestionsFetchRequested(_ref2) {
 	      var value = _ref2.value;
 	
@@ -36106,9 +36102,6 @@
 	    }
 	  }, {
 	    key: 'onSuggestionsClearRequested',
-	
-	
-	    // Autosuggest will call this function every time you need to clear suggestions.
 	    value: function onSuggestionsClearRequested() {
 	      this.setState({
 	        suggestions: []
@@ -39986,7 +39979,15 @@
 			key: "render",
 			value: function render() {
 				if (!this.props.team) {
-					return _react2.default.createElement("div", { className: "team-detail" });
+					return _react2.default.createElement(
+						"div",
+						{ className: "team-detail" },
+						_react2.default.createElement(
+							"p",
+							null,
+							"This tree represents all the teams in MLB history and how they are connected to Babe Ruth. Each node is a team and each link is a player. Click a colored node to expand the tree."
+						)
+					);
 				}
 				return _react2.default.createElement(
 					"div",

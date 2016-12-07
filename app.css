@@ -107,11 +107,25 @@ nav > div.active {
 .team-detail {
   position: absolute;
   right: 0;
-  height: 930px;
+  min-height: 930px;
   background: grey;
-  opacity: .5;
+  opacity: .7;
   width: 200px;
-  /*border-left: 3px solid black;*/
+  border-left: 3px solid black;
+}
+
+.team-detail header {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.team-detail h3 {
+  text-align: center;
+}
+
+.team-detail p {
+  padding: 10px;
 }
 
 .focus > circle {
