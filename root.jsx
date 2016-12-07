@@ -2,7 +2,8 @@ import React from 'react';
 import $ from 'jquery-ajax';
 
 import Graph from './graph';
-import Autocomplete from './autocomplete'
+import Autocomplete from './autocomplete';
+import TeamDetail from './team_detail';
 
 const statOptions = {
 	"G": "g",
@@ -29,27 +30,36 @@ export default class Root extends React.Component {
 			stats: null,
 			xAxis: "h",
 			yAxis: "hr",
-			babe: ""
+			babe: "",
+			team: null
 		}
 	}
 
 	fetchStats() {
 		let that = this;
 		$.ajax({
-			url: "https://baseball-db.herokuapp.com/api/player/aaronha01",
+			url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/aaronha01",
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
 
-
-	componentDidMount() {
-		this.fetchStats();
+	handleCircleClick(d) {
+		let that = this;
+		$.ajax({
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/teams?id=${d.team_id}`,
+			success: data => {debugger;that.setState({team: data.team})}
+		});
 	}
+
+
+	// componentDidMount() {
+	// 	this.fetchStats();
+	// }
 
 	handleSelect(val) {
 		let that = this;
 		$.ajax({
-			url: `https://baseball-db.herokuapp.com/api/player/${val}`,
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/player/${val}`,
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
@@ -57,7 +67,7 @@ export default class Root extends React.Component {
 	handleBabe(val) {
 		let that = this;
 		$.ajax({
-			url: `https://baseball-db.herokuapp.com/api/baberuth/${val}`,
+			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com//api/baberuth/${val}`,
 			success: data => that.setState({babe: data.result})
 		});
 	}
@@ -139,27 +149,13 @@ export default class Root extends React.Component {
 			return (
 				<main>
 					{ this.currentTab() }
-					<Graph stats={this.state.stats} xAxis={this.state.xAxis} yAxis={this.state.yAxis} />
-					<div className="inputs">
-						<div className="axes">
-							<span>
-								<span className="label">X-Axis:</span> 
-								<select value={this.state.xAxis} onChange={e => this.setState({xAxis: e.target.value})}>
-									{Object.keys(statOptions).map(stat => {
-										return <option key={stat} value={statOptions[stat]}>{stat}</option>
-									})}
-								</select>
-							</span>
-							<span >
-								<span className="label">Y-Axis:</span> <select value={this.state.yAxis} onChange={e => this.setState({yAxis: e.target.value})}>
-									{Object.keys(statOptions).map(stat => {
-										return <option key={stat} value={statOptions[stat]}>{stat}</option>
-									})}
-								</select>
-							</span>
-						</div>
-						<Autocomplete handleSelect={this.handleSelect.bind(this)} tab={this.state.tab} />
-					</div>
+					<Graph 
+						stats={this.state.stats} 
+						clickHandler={this.handleCircleClick.bind(this)}
+						xAxis={this.state.xAxis} 
+						yAxis={this.state.yAxis} 
+					/>
+					<TeamDetail team={this.state.team} />
 				</main>
 			);
 		}

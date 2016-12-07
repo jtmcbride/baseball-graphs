@@ -8,6 +8,27 @@ svg {
 }
 
 
+  .node {
+    cursor: pointer;
+  }
+
+  .node circle {
+    fill: black;
+    stroke: #0971B2;
+    stroke-width: 1px;
+  }
+
+  .node text {
+    font: 10px sans-serif;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
+
+
 circle:hover {
   fill: red;
 }
@@ -77,6 +98,10 @@ nav > div.active {
 	color: white;
 	border-radius: 5px;
 	padding: 10px;
+}
+
+.team-detail {
+  float: right;
 }
 
 
