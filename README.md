@@ -4,13 +4,13 @@ This application uses the BaseballDB API to display a tree linking all teams in 
 
 ## Tree
 
-![tree](/tree.gif)
+![tree](/screenshots/tree.gif)
 
 
 Each link in this tree is a team and each link repreents a player. This creates a minimum spanning tree linking all teams in Major League history to Babe Ruth.
 
 ## Babe Ruth Number
 
-![number](/ruth.gif)
+![number](/screenshots/ruth.gif)
 
 This feature returns a path specifying teams and linking players for any player in the BaseballDB database.
