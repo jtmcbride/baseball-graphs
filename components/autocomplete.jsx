@@ -38,7 +38,7 @@ export default class AutoComplete extends React.Component {
   onSuggestionsFetchRequested({ value }) {
     let that = this;
     $.ajax({
-      url: "https://baseballdb.online/api/players/search",
+      url: "http://baseballdb.online/api/players/search",
       data: {q: value},
       success: data => { that.setState({ suggestions: data.players }) }
     })

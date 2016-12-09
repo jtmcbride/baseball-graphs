@@ -35839,7 +35839,7 @@
 	
 	      var that = this;
 	      _jqueryAjax2.default.ajax({
-	        url: "https://baseballdb.online/api/players/search",
+	        url: "http://baseballdb.online/api/players/search",
 	        data: { q: value },
 	        success: function success(data) {
 	          that.setState({ suggestions: data.players });
