@@ -26101,6 +26101,7 @@
 				team: null,
 				players: ["Babe Ruth"]
 			};
+			_this.api_url = "https://baseball-db.herokuapp.com/api";
 			return _this;
 		}
 	
@@ -26109,7 +26110,7 @@
 			value: function fetchStats() {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/aaronha01",
+					url: that.api_url + '/player/aaronha01',
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
@@ -26120,7 +26121,7 @@
 			value: function handleCircleClick(d) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/teams?id=' + d.team_id,
+					url: that.api_url + '/teams?id=' + d.team_id,
 					success: function success(data) {
 						return that.setState({ team: data.team, players: data.players });
 					}
@@ -26131,7 +26132,7 @@
 			value: function handleSelect(val) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/' + val,
+					url: that.api_url + '/player/' + val,
 					success: function success(data) {
 						return that.setState({ stats: data.batting_stats });
 					}
@@ -26142,7 +26143,7 @@
 			value: function handleBabe(val) {
 				var that = this;
 				_jqueryAjax2.default.ajax({
-					url: 'http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/baberuth/' + val,
+					url: that.api_url + '/baberuth/' + val,
 					success: function success(data) {
 						return that.setState({ babe: data.result });
 					}

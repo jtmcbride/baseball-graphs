@@ -34,12 +34,13 @@ export default class Root extends React.Component {
 			team: null,
 			players: ["Babe Ruth"]
 		}
+		this.api_url = "https://baseball-db.herokuapp.com/api"
 	}
 
 	fetchStats() {
 		let that = this;
 		$.ajax({
-			url: "http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/aaronha01",
+			url: `${that.api_url}/player/aaronha01`,
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
@@ -47,7 +48,7 @@ export default class Root extends React.Component {
 	handleCircleClick(d) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/teams?id=${d.team_id}`,
+			url: `${that.api_url}/teams?id=${d.team_id}`,
 			success: data => that.setState({team: data.team, players: data.players})
 		});
 	}
@@ -56,7 +57,7 @@ export default class Root extends React.Component {
 	handleSelect(val) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/player/${val}`,
+			url: `${that.api_url}/player/${val}`,
 			success: data => that.setState({stats: data.batting_stats})
 		});
 	}
@@ -64,7 +65,7 @@ export default class Root extends React.Component {
 	handleBabe(val) {
 		let that = this;
 		$.ajax({
-			url: `http://ec2-54-153-34-17.us-west-1.compute.amazonaws.com/api/baberuth/${val}`,
+			url: `${that.api_url}/baberuth/${val}`,
 			success: data => that.setState({babe: data.result})
 		});
 	}
