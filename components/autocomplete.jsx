@@ -17,7 +17,8 @@ export default class AutoComplete extends React.Component {
 	      value: '',
         playerId: 'aaronha01',
 	      suggestions: []
-    	};
+      };
+      this.api_url = "https://baseball-db.herokuapp.com/api"
     }
 
   renderSuggestion(suggestion) {
@@ -38,7 +39,7 @@ export default class AutoComplete extends React.Component {
   onSuggestionsFetchRequested({ value }) {
     let that = this;
     $.ajax({
-      url: "http://baseballdb.online/api/players/search",
+      url: `${that.api_url}/players/search`,
       data: {q: value},
       success: data => { that.setState({ suggestions: data.players }) }
     })

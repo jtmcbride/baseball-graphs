@@ -35808,6 +35808,7 @@
 	      playerId: 'aaronha01',
 	      suggestions: []
 	    };
+	    _this.api_url = "https://baseball-db.herokuapp.com/api";
 	    return _this;
 	  }
 	
@@ -35840,7 +35841,7 @@
 	
 	      var that = this;
 	      _jqueryAjax2.default.ajax({
-	        url: "http://baseballdb.online/api/players/search",
+	        url: that.api_url + '/players/search',
 	        data: { q: value },
 	        success: function success(data) {
 	          that.setState({ suggestions: data.players });
